@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=, initial-scale=1.0">
+    <title>Document</title>
+
+    <script>
+        async function getSononyms() {
+            let url = 'https://www.openthesaurus.de/synonyme/search?q=test&format=application/json';
+            let respons = await fetch(url);
+            let responsJsons = await respons.json();
+
+            console.log('Response is', responsJsons);
+        }
+    </script>
+
+</head>
+
+<body>
+
+    <button onclick="getSononyms()">Synonyms</button>
+
+</body>
+
+</html>

@@ -8,19 +8,43 @@
 
     <script>
         async function getSononyms() {
-            let url = 'https://www.openthesaurus.de/synonyme/search?q=test&format=application/json';
+            let query = document.getElementById('searchQuery').value;
+            let url = `https://www.openthesaurus.de/synonyme/search?q=${query}&format=application/json`;
             let respons = await fetch(url);
             let responsJsons = await respons.json();
-
-            console.log('Response is', responsJsons);
+            let synsets = responsJsons['synsets'];
+            responsSynsets(synsets);
         }
+
+        function responsSynsets(synsets) {
+            let container = document.getElementById('container');
+
+            container.innerHTML = `<div>es wurden <b> ${synsets.length}</b> Synonym-Sets geladen</div>`;
+
+            for (let i = 0; i < synsets.length; i++) {
+                const synset = synsets[i];
+                let terms = synset['terms']; // Ist ein Array    
+                container.innerHTML += `<h2>Synonym-Sets mit der ID ${synset['id']}</h2>`;
+
+                for (let j = 0; j < terms.length; j++) {
+                    const term = terms[j];
+                    container.innerHTML += `<div>${term['term']}</div>`;
+                }
+            }
+
+        }
+
     </script>
 
 </head>
 
 <body>
 
+    <input type="text" id="searchQuery">
+
     <button onclick="getSononyms()">Synonyms</button>
+
+    <div id="container"></div>
 
 </body>
 
